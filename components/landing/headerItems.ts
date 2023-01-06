@@ -15,4 +15,8 @@ export default [
       title: "ติดต่อเรา",
       to: "/contact",
     },
+    {
+      title: "เข้าสู่ระบบ",
+      to: "/auth/login",
+    },
 ]

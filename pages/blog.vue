@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
     useHead({
         title: 'บล็อก',
         meta: [
@@ -12,6 +13,32 @@
             }
         ]
     })
+
+    interface IProduct {
+        id: number,
+        topic: string,
+        imageurl: string,
+        detail: string,
+        created_at: string,
+        linkurl: string
+    }
+
+    // อ่านข้อมูลจาก API ด้วย useFetch
+    const { data: products, pending } = await useFetch<IProduct[]>('https://www.itgenius.co.th/sandbox_api/mrta_flutter_api/public/api/news')
+
+    // console.log(products)
+    const getDay = (dateText: string) => {
+      const date = new Date(dateText)
+      return date.getDate()       
+    }
+
+    const getMonth = (dateText: string) => {
+      const date = new Date(dateText)
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return monthNames[ date.getMonth() ]      
+    }
+
+
 </script>
 
 <template>
@@ -30,135 +57,34 @@
             </v-row>
         </div>
 
-        <v-container>
-        <v-row class="mt-13" justify="center">
-          <v-col cols="12" md="6" lg="4">
-            <v-card elevation="0" class="blog-card overflow-hidden mb-5">
-              <div class="position-relative mb-5">
-                <a href="#">
-                  <v-img src="/images/blog/img1.jpg"
-                    alt="blog"
-                    class="blog-img"
-                  />
-                </a>
-                <div class="date-badge bg-info-grediant">
-                  Oct <span>23</span>
-                </div>
-              </div>
-              <div class="pa-5">
-                <a
-                  href="#"
-                  class="
-                    blog-title
-                    text-decoration-none
-                    font-weight-medium font-18
-                  "
-                  >Learn from small things to create something bigger thing in blog.</a
-                >
-                <p class="mt-10 mb-10">
-                  Business Park, Opp. Corns Sam Restaurant, New Yoark, US
-                </p>
-                <a
-                  href="#"
-                  class="
-                    text-themecolor
-                    linking
-                    text-decoration-none
-                    d-flex
-                    align-center
-                  "
-                >
-                  อ่านต่อ  &nbsp; <i class="mdi mdi-arrow-right"></i>
-                </a>
-              </div>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="6" lg="4">
-            <v-card elevation="0" class="blog-card overflow-hidden mb-5">
-              <div class="position-relative mb-5">
-                <a href="#">
-                  <v-img src="/images/blog/img2.jpg"
-                    alt="blog"
-                    class="blog-img"
-                  />
-                </a>
-                <div class="date-badge bg-info-grediant">
-                  Oct <span>23</span>
-                </div>
-              </div>
-              <div class="pa-5">
-                <a
-                  href="#"
-                  class="
-                    blog-title
-                    text-decoration-none
-                    font-weight-medium 
-                    font-18
-                  "
-                  >New Seminar on Newest Food Recipe from World’s Best</a
-                >
-                <p class="mt-10 mb-10">
-                  Business Park, Opp. Corns Sam Restaurant, New Yoark, US
-                </p>
-                <a
-                  href="#"
-                  class="
-                    text-themecolor
-                    linking
-                    text-decoration-none
-                    d-flex
-                    align-center
-                  "
-                >
-                  อ่านต่อ  &nbsp;<i class="mdi mdi-arrow-right"></i>
-                </a>
-              </div>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="6" lg="4">
-            <v-card elevation="0" class="blog-card overflow-hidden mb-5">
-              <div class="position-relative mb-5">
-                <a href="#">
-                  <v-img src="/images/blog/img3.jpg"
-                    alt="blog"
-                    class="blog-img"
-                  />
-                </a>
-                <div class="date-badge bg-info-grediant">
-                  Oct <span>23</span>
-                </div>
-              </div>
-              <div class="pa-5">
-                <a
-                  href="#"
-                  class="
-                    blog-title
-                    text-decoration-none
-                    font-weight-medium 
-                    font-18
-                  "
-                  >You should have eagle’s eye on new trends and techonogies</a
-                >
-                <p class="mt-10 mb-10">
-                  Business Park, Opp. Corns Sam Restaurant, New Yoark, US
-                </p>
-                <a
-                  href="#"
-                  class="
-                    text-themecolor
-                    linking
-                    text-decoration-none
-                    d-flex
-                    align-center
-                  "
-                >
-                  อ่านต่อ  &nbsp; <i class="mdi mdi-arrow-right"></i>
-                </a>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+        <ClientOnly>
+          <v-container>
+            <v-row class="mt-13" justify="center" v-if="!pending">
+              <v-col cols="12" md="6" lg="4" v-for="(product, index) in products" :key="index">
+                <v-card elevation="0" class="blog-card overflow-hidden mb-5" :to="`/blogdetail/${product.id}`">
+                  <div class="position-relative mb-5">
+                    <v-img :src="product.imageurl"
+                      alt="blog"
+                      class="blog-img"
+                    />
+                    <div class="date-badge bg-info-grediant">
+                      {{ getMonth(product.created_at) }} <span>{{ getDay(product.created_at) }}</span>
+                    </div>
+                  </div>
+                  <div class="pa-5">
+                    <v-card-title>
+                      {{ product.topic }}
+                    </v-card-title>
+                    <v-card-subtitle>
+                      {{ product.detail }}
+                    </v-card-subtitle>
+                  </div>
+                </v-card>
+              </v-col>
+            </v-row>
+            <div class="text-center py-10" v-else>Loading...</div>
+          </v-container>
+        </ClientOnly>
 
     </div>
 </template>
