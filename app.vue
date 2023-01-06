@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="d-flex h-screen">
     <v-card class="mx-auto my-auto" width="400" prepend-icon="mdi-home">
       <template v-slot:title>
@@ -14,4 +14,10 @@
       </v-card-actions>
     </v-card>
   </div>
+</template> -->
+
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
