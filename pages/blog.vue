@@ -57,34 +57,34 @@
             </v-row>
         </div>
 
-        <ClientOnly>
-          <v-container>
-            <v-row class="mt-13" justify="center" v-if="!pending">
-              <v-col cols="12" md="6" lg="4" v-for="(product, index) in products" :key="index">
-                <v-card elevation="0" class="blog-card overflow-hidden mb-5" :to="`/blogdetail/${product.id}`">
-                  <div class="position-relative mb-5">
-                    <v-img :src="product.imageurl"
-                      alt="blog"
-                      class="blog-img"
-                    />
-                    <div class="date-badge bg-info-grediant">
-                      {{ getMonth(product.created_at) }} <span>{{ getDay(product.created_at) }}</span>
-                    </div>
+        <v-container>
+          <v-row class="mt-13" justify="center" v-if="!pending">
+            <v-col cols="12" md="6" lg="4" v-for="(product, index) in products" :key="index">
+              
+              <v-card elevation="0" class="blog-card overflow-hidden mb-5" :to="`/blogdetail/${product.id}`">
+                <div class="position-relative mb-5">
+                  <v-img :src="product.imageurl"
+                    alt="blog"
+                    class="blog-img"
+                  />
+                  <div class="date-badge bg-info-grediant">
+                    {{ getMonth(product.created_at) }} <span>{{ getDay(product.created_at) }}</span>
                   </div>
-                  <div class="pa-5">
-                    <v-card-title>
-                      {{ product.topic }}
-                    </v-card-title>
-                    <v-card-subtitle>
-                      {{ product.detail }}
-                    </v-card-subtitle>
-                  </div>
-                </v-card>
-              </v-col>
-            </v-row>
-            <div class="text-center py-10" v-else>Loading...</div>
-          </v-container>
-        </ClientOnly>
+                </div>
+                <div class="pa-5">
+                  <v-card-title>
+                    {{ product.topic }}
+                  </v-card-title>
+                  <v-card-subtitle>
+                    {{ product.detail }}
+                  </v-card-subtitle>
+                </div>
+              </v-card>
+
+            </v-col>
+          </v-row>
+          <div class="text-center py-10" v-else>Loading...</div>
+        </v-container>
 
     </div>
 </template>

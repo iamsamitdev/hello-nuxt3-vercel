@@ -42,14 +42,12 @@
                 </v-row>
             </div>
 
-            <ClientOnly>
-                <v-container>
-                    <img :src="product?.imageurl" :alt="product?.topic" class="w-100">
-                    <p class="my-4">{{ product?.detail }}</p>
-                    <p class="my-4">{{ product?.created_at }}</p>
-                    <a :href="product?.linkurl" target="_blank">อ่านเพิ่มเติม</a>
-                </v-container>
-            </ClientOnly>
+            <v-container>
+                <img :src="product?.imageurl" :alt="product?.topic" class="w-100">
+                <p class="my-4">{{ product?.detail }}</p>
+                <p class="my-4">{{ product?.created_at }}</p>
+                <a :href="product?.linkurl" target="_blank">อ่านเพิ่มเติม</a>
+            </v-container>
         </div>
         <div class="text-center py-10" v-else>Loading...</div>
     </div>
